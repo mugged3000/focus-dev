@@ -11,6 +11,7 @@ import Footer from './Pages/Footer.jsx';
 import './App.css';
 
 function App() {
+  const devNmae = "focus-dev"
   return (
     <div className="App">
       <Header />
@@ -20,7 +21,8 @@ function App() {
       <Portfolio />
       <Testimonials />
       <Contact />
-      <Footer />
+      <Footer brandName={devNmae} />
+
     </div>
   );
 }

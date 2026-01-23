@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { FaArrowUp } from 'react-icons/fa';
 
-const Footer = () => {
+const Footer = ({ brandName }) => {
+  const [showArrow, setShowArrow] = useState(false); // control visibility
+
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Show arrow only after scrolling down
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) { // scroll down 200px
+        setShowArrow(true);
+      } else {
+        setShowArrow(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    // cleanup
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const currentYear = new Date().getFullYear(); // dynamic year
 
   return (
     <>
@@ -47,14 +63,19 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="footer-bottom text-center pt-4 border-top">
-            <p className="copyright">&copy; {new Date().getFullYear()} YourName. All Rights Reserved.</p>
+            <p className="copyright">&copy; {currentYear} {brandName}. All Rights Reserved.</p>
           </div>
         </Container>
       </footer>
 
-      <a href="#home" className="back-to-top" onClick={scrollToTop}>
+      {/* Back-to-top arrow */}
+      <a
+        href="#home"
+        className={`back-to-top ${showArrow ? 'visible' : 'hidden'}`} // toggle visibility
+        onClick={scrollToTop}
+      >
         <FaArrowUp />
       </a>
     </>

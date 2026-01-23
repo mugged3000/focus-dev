@@ -524,3 +524,52 @@ header.scrolled {
 .testimonial-rating {
   color: #ffc107;
 }
+
+
+/* back to top */
+
+.back-to-top {
+  position: fixed;           /* fixed on screen */
+  bottom: 40px;              /* distance from bottom */
+  right: 40px;               /* distance from right */
+  background-color: #007bff; /* blue button */
+  color: white;              /* icon color */
+  border-radius: 50%;        /* circular shape */
+  padding: 12px;             /* size of the button */
+  font-size: 20px;           /* icon size */
+  z-index: 1000;             /* make sure it's on top */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Hover effect */
+.back-to-top:hover {
+  background-color: #0056b3; /* darker blue */
+  transform: translateY(-3px); /* lift effect */
+}
+
+/* Optional: fade in/out on scroll (nice touch) */
+.back-to-top.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.back-to-top.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
