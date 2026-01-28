@@ -4,21 +4,38 @@
 <p align="center">
  <img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
   <img alt="Bootstrap" src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white"/>
-  <img alt="React-Bootstrap" src="https://img.shields.io/badge/React--Bootstrap-563D7C?style=for-the-badge&logo=react&logoColor=white"/>
-  <img alt="CSS3" src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/>
-  <img alt="BootstrapIcons" src="https://img.shields.io/badge/Bootstrap_Icons-1387C9?style=for-the-badge"/>
-<img alt="Contentful" src="https://img.shields.io/badge/Contentful-000000?style=for-the-badge"/> 
+ <img alt="Contentful" src="https://img.shields.io/badge/Contentful-000000?style=for-the-badge"/> 
 </p>
 
 ---
 
 ## ✨ About the Project
 
-**Focus Dev** is a **professional portfolio website** built to showcase my expertise and projects in modern web development.  
+**Focus Dev** is my personal portfolio website where I showcase my projects, skills, and experience in web development.
 
-- **Team:** Experienced full-stack web developer collaborating with tech partners to deliver scalable and efficient web solutions.  
-- **Projects:** Web applications and tools built for efficiency, innovation, and real-world impact, using modern web technologies to ensure high performance, scalability, and maintainability. 
-- **Services:** Full-stack web development, responsive design, performance optimization, mentorship, and technology consulting.  
+The site focuses on clean design, responsiveness, and modern frontend practices. It also reflects my learning journey and how I approach real-world problems using current web technologies.
+
+This portfolio is built to demonstrate what I can build and how I write maintainable, performance-focused code.
+
+### Projects
+
+This portfolio features web projects I’ve built while learning and working with modern web technologies.  
+They include personal projects, experiments, and real-world-style applications focused on usability, performance, and clean code.
+
+### Services
+
+I offer web development services focused on building clean, responsive, and user-friendly interfaces.
+
+- Frontend  web development  
+- Responsive website design  
+- UI improvements and performance optimization  
+- Converting designs into functional web pages  
+- Website maintenance and improvements  
+
+### My Expertise
+- **Frontend:** React, Bootstrap, HTML5, CSS3, JavaScript
+- **Backend (learning and applying):** Node.js, Express
+- **Other Tools:** Git, Vite, Contentful, 
 
  
 
