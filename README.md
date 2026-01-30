@@ -1,5 +1,5 @@
 
-<h1 align="center">Focus Webdev</h1>
+<h1 align="center">Focus Dev</h1>
 
 <p align="center">
  <img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
