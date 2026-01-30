@@ -11,33 +11,8 @@
 
 ## ✨ About the Project
 
-**Focus Dev** is my personal portfolio website where I showcase my projects, skills, and experience in web development.
+I’m **Focus Dev**, a Full-Stack developer, and this is my portfolio where I showcase the web applications I’ve built. It highlights my skills in both frontend and backend development and shows how I approach building clean, maintainable, and high-performance code. Here, you’ll find projects that are responsive, user-friendly, and fully functional, reflecting my drive to solve real-world problems with thoughtful design and practical solutions.
 
-The site focuses on clean design, responsiveness, and modern frontend practices. It also reflects my learning journey and how I approach real-world problems using current web technologies.
-
-This portfolio is built to demonstrate what I can build and how I write maintainable, performance-focused code.
-
-### Projects
-
-This portfolio features web projects I’ve built while learning and working with modern web technologies.  
-They include personal projects, experiments, and real-world-style applications focused on usability, performance, and clean code.
-
-### Services
-
-I offer web development services focused on building clean, responsive, and user-friendly interfaces.
-
-- Frontend  web development  
-- Responsive website design  
-- UI improvements and performance optimization  
-- Converting designs into functional web pages  
-- Website maintenance and improvements  
-
-### My Expertise
-- **Frontend:** React, Bootstrap, HTML5, CSS3, JavaScript
-- **Backend (learning and applying):** Node.js, Express
-- **Other Tools:** Git, Vite, Contentful, 
-
- 
 
 ---
 

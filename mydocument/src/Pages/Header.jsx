@@ -36,7 +36,7 @@ const Header = () => {
         <Container>
           <Navbar.Brand href="#home" className="logo">
             <FaCode className="me-2" />
-            Collins<span>Chidera</span>
+            Focus<span>Dev</span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" style={{border:"none",boxShadow:"none"}}/>
           <Navbar.Collapse id="basic-navbar-nav">

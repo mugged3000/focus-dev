@@ -1,0 +1,79 @@
+/* Full viewport wrapper */
+.loader-wrapper {
+  height: 100vh;
+  width: 100%;
+  background-color: #121212; /* dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loader circle with text */
+.loader {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border: 3px solid rgba(0, 102, 255, 0.1);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 150px;
+  font-family: sans-serif;
+  font-size: 20px;
+  color: #0066ff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px #0066ff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Rotating border effect */
+.loader::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-top: 3px solid #0066ff;
+  border-right: 3px solid #0066ff;
+  border-radius: 50%;
+  animation: rotateBorder 2s linear infinite;
+}
+
+/* Animated spinning span */
+.loader span {
+  display: block;
+  position: absolute;
+  top: calc(50% - 2px);
+  left: 50%;
+  width: 50%;
+  height: 4px;
+  background: transparent;
+  transform-origin: left;
+  animation: rotateSpan 2s linear infinite;
+}
+
+/* Glowing dot */
+.loader span::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00aeff;
+  top: -6px;
+  right: -8px;
+  box-shadow: 0 0 20px 5px #0066ff;
+}
+
+/* Animations */
+@keyframes rotateBorder {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes rotateSpan {
+  0% { transform: rotate(45deg); }
+  100% { transform: rotate(405deg); }
+}

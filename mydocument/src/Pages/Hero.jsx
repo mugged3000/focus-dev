@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { FaChevronDown } from 'react-icons/fa';
@@ -20,8 +19,10 @@ const Hero = () => {
       <div className="bg-shape bg-triangle"></div>
       <Container className="h-100 d-flex align-items-center">
         <div className="hero-content text-center">
-          <h1>Hello, I'm <span>Chidera Collins</span></h1>
-          <p className="lead">I'm a passionate front-end developer specializing in creating beautiful, responsive websites and web applications that deliver exceptional user experiences.</p>
+          <h1>Hello, I'm <span>Focus-Dev</span></h1>
+          <p className="lead">
+            I'm a passionate Full-Stack developer, building both frontend and backend solutions. I create modern, responsive web applications that are not only visually appealing but also fully functional, efficient, and user-friendly.
+          </p>
           <div className="hero-btns mt-4">
             <Button variant="light" className="me-3" onClick={() => scrollToSection('portfolio')}>View My Work</Button>
             <Button variant="outline-light" onClick={() => scrollToSection('contact')}>Hire Me</Button>
