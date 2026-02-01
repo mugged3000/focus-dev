@@ -21,7 +21,7 @@ const Hero = () => {
         <div className="hero-content text-center">
           <h1>Hello, I'm <span>Focus-Dev</span></h1>
           <p className="lead">
-            I'm a passionate Full-Stack developer, building both frontend and backend solutions. I create modern, responsive web applications that are not only visually appealing but also fully functional, efficient, and user-friendly.
+            I'm a passionate Soft-Ware developer, building both frontend and backend solutions. I create modern, responsive web applications that are not only visually appealing but also fully functional, efficient, and user-friendly.
           </p>
           <div className="hero-btns mt-4">
             <Button variant="light" className="me-3" onClick={() => scrollToSection('portfolio')}>View My Work</Button>

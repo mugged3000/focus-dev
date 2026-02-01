@@ -67,7 +67,7 @@ const About = () => {
             <div className="about-text">
               <h2>Who am I?</h2>
               <p>
-                I'm <strong>Focus-Dev</strong>, a Full-Stack developer building
+                I'm <strong>Focus-Dev</strong>, a Software developer. building
                 modern, responsive web applications. I work across frontend and
                 backend, creating efficient, maintainable code while ensuring a
                 smooth and user-friendly experience.

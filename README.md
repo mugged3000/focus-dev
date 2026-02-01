@@ -11,8 +11,7 @@
 
 ## ✨ About the Project
 
-I’m **Focus Dev**, a Full-Stack developer, and this is my portfolio where I showcase the web applications I’ve built. It highlights my skills in both frontend and backend development and shows how I approach building clean, maintainable, and high-performance code. Here, you’ll find projects that are responsive, user-friendly, and fully functional, reflecting my drive to solve real-world problems with thoughtful design and practical solutions.
-
+I’m **Focus Dev**, a Software Developer, and this is my portfolio where I showcase the web applications I’ve built. It highlights my skills in both frontend and backend development and demonstrates how I approach building clean, maintainable, and high-performance code. Here, you’ll find projects that are responsive, user-friendly, and fully functional, reflecting my drive to solve real-world problems through thoughtful design and practical solutions.
 
 ---
 
