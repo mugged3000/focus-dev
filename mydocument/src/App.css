@@ -148,13 +148,24 @@ header.scrolled {
   height: 100vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, rgba(67, 97, 238, 0.9) 0%, rgba(58, 12, 163, 0.9) 100%), 
-              url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80') no-repeat center center/cover;
+
+  background-image:
+    linear-gradient(
+      135deg,
+      rgba(67, 97, 238, 0.9) 0%,
+      rgba(58, 12, 163, 0.9) 100%
+    ),
+    var(--hero-bg-image, url("/porhero.png"));
+
+  background-size: cover;
+  background-position: center;
+
   color: white;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
+
 
 .hero::before {
   content: '';
@@ -317,6 +328,7 @@ header.scrolled {
   font-size: 1rem;
   color: var(--text-light);
 }
+
 
 /* Services Section */
 .services {

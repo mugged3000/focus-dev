@@ -8,9 +8,12 @@ import Testimonials from './Pages/Testimonial.jsx';
 import Contact from './Pages/Contacts.jsx';
 import Footer from './Pages/Footer.jsx';
 import Loader from '../components/Loader.jsx'; // 👈 loader
+
 import './App.css';
 
 function App() {
+
+
   const devName = "focus-dev";
 
   // loader
