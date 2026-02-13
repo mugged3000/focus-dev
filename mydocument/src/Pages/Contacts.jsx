@@ -7,6 +7,7 @@ const Contact = () => {
   return (
     <section id="contact" className="section contact">
       <div className="bg-shape bg-circle"></div>
+      <div className="bg-shape bg-triangle"></div>
       <Container>
         <h2 className="section-title">Get In Touch</h2>
         <p className="section-subtitle">Let's work together</p>
