@@ -1,123 +1,114 @@
 import React, { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-// import MyProfile from "/images/DP.jpg";
-import { contentfulClient } from "../Contentfull.js"
+import { contentfulClient } from "../Contentfull.js";
+import "../css/about.css";
 
 const About = () => {
   const [skills, setSkills] = useState([]);
   const [aboutTitle, setAboutTitle] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-  const [whoAm, setWhoAm]  = useState("");
- const [aboutImg, setAboutImg] = useState([]);
+  const [whoAm, setWhoAm] = useState("");
+  const [aboutImg, setAboutImg] = useState([]);
 
-  
-  // Stats configuration (UNCHANGED)
   const statsData = [
     { label: "Projects Completed", target: 3 },
     { label: "Years Experience", target: 4 },
     { label: "Client Satisfaction", target: 80 },
   ];
-
   const [counters, setCounters] = useState(statsData.map(() => 0));
 
-  // 🔹 Fetch Contentful data (USING YOUR FIELD NAMES)
- useEffect(() => {
-  contentfulClient
-    .getEntries({
-      content_type: "myportfolio",
-      limit: 1,
-    })
-    .then((res) => {
-      
+  useEffect(() => {
+    contentfulClient
+      .getEntries({ content_type: "myportfolio", limit: 1 })
+      .then((res) => {
+        if (!res.items.length) return;
+        const fields = res.items[0].fields;
+        setSkills(fields.mySkill || []);
+        setAboutTitle(fields.about || "");
+        setAboutMe(fields.aboutMe || "");
+        setWhoAm(fields.whoiam || "");
+        setAboutImg(fields.images || []);
+      })
+      .catch((err) => console.error("Contentful error:", err));
+  }, []);
 
-      if (!res.items.length) return;
-
-      const fields = res.items[0].fields;
-
-      setSkills(fields.mySkill || []);
-      setAboutTitle(fields.about || "");
-      setAboutMe(fields.aboutMe || "");
-      setWhoAm(fields.whoiam || "");
-      setAboutImg(fields.images || [])
-    })
-    .catch((err) => console.error("Contentful error:", err));
-}, []);
-
-
-
-
-  // 🔹 Counter animation (UNCHANGED)
   useEffect(() => {
     const interval = setInterval(() => {
       setCounters((prev) =>
         prev.map((count, i) => {
           if (count < statsData[i].target) {
             const inc = statsData[i].target > 10 ? 1 : 0.1;
-            const next = Math.min(count + inc, statsData[i].target);
-            return Math.round(next * 10) / 10;
+            return Math.min(Math.round((count + inc) * 10) / 10, statsData[i].target);
           }
           return count;
         })
       );
     }, 100);
-
     return () => clearInterval(interval);
   }, []);
 
   return (
     <section id="about" className="section about">
-      <div className="bg-shape bg-circle"></div>
-       <div className="bg-shape bg-triangle"></div>
-      <Container>
-        {/* About section title from Contentful */}
-        <h2 className="section-title">{aboutTitle}</h2>
-        <p className="section-subtitle">Get to know me better</p>
+      <div className="bg-blob bg-blob-1" />
+      <div className="bg-blob bg-blob-2" />
+      <div className="z1" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px" }}>
+        <div className="section-head">
+          <div className="section-label">About Me</div>
+          <h2 className="section-title">{aboutTitle || "Who I Am"}</h2>
+          <p className="section-subtitle">Get to know the person behind the code</p>
+        </div>
 
-        <div className="row align-items-center">
-          <div className="col-lg-6 mb-5 mb-lg-0">
-             <div className="about-img">
-          <img
-          src={aboutImg[0]?.url || ""}
-          alt={aboutImg[0]?.alt || "Profile"}
-          className="img-fluid rounded"
-        />
-
+        <div className="about-layout">
+          {/* Image */}
+          <div className="about-img-wrap">
+            <div className="about-img-frame">
+              {aboutImg[0]?.url ? (
+                <img src={aboutImg[0].url} alt={aboutImg[0].alt || "Profile"} />
+              ) : (
+                <div style={{ width: "100%", height: "100%", background: "var(--gradient)", minHeight: 400 }} />
+              )}
+            </div>
+            <div className="about-img-badge">
+              <strong>4+</strong>
+              <span>Years Exp.</span>
+            </div>
           </div>
-          </div>
 
-          <div className="col-lg-6">
-            <h2>{whoAm}</h2>
-            <p>{aboutMe}</p>
+          {/* Text */}
+          <div className="about-text">
+            <h2>{whoAm || "Front-End Developer & UI Craftsman"}</h2>
+            <p>{aboutMe || "I'm a passionate developer who turns ideas into polished, user-centered digital products."}</p>
 
-            {/* Skills from Contentful */}
-            <div className="skills mt-5">
+            <div className="skills-section">
               <h3>My Skills</h3>
-              <div className="skill-tags d-flex flex-wrap gap-2 mt-3">
-                {skills.map((skill, i) => (
-                  <span key={i} className="skill-tag">
-                    {skill}
-                  </span>
-                ))}
+              <div className="skill-tags">
+                {skills.length > 0
+                  ? skills.map((skill, i) => <span key={i} className="skill-tag">{skill}</span>)
+                  : ["React","JavaScript","CSS","HTML","Node.js","Figma"].map((s, i) => (
+                      <span key={i} className="skill-tag">{s}</span>
+                    ))}
               </div>
+            </div>
+
+            <div style={{ marginTop: 36 }}>
+              <a href="#contact" className="btn-primary-custom" onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}>
+                Work With Me →
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Stats (UNCHANGED) */}
-        <div className="row mt-5">
+        {/* Stats */}
+        <div className="stats-grid">
           {statsData.map((stat, i) => (
-            <div className="col-md-4" key={stat.label}>
-              <div className="stat-item text-center p-4">
-                <div className="stat-number">
-                  {counters[i]}
-                  {stat.label === "Client Satisfaction" ? "%" : "+"}
-                </div>
-                <div className="stat-text">{stat.label}</div>
+            <div className="stat-card" key={stat.label}>
+              <div className="stat-number">
+                {counters[i]}{stat.label === "Client Satisfaction" ? "%" : "+"}
               </div>
+              <div className="stat-label">{stat.label}</div>
             </div>
           ))}
         </div>
-      </Container>
+      </div>
     </section>
   );
 };

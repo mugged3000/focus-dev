@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button } from 'react-bootstrap';
 import { FaGithub, FaLink } from 'react-icons/fa';
 import { contentfulClient } from '../Contentfull';
+import '../css/portfolio.css';
 
 const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -10,103 +10,86 @@ const Portfolio = () => {
 
   useEffect(() => {
     contentfulClient
-      .getEntries({
-        content_type: "myportfolio",
-        limit: 1,
-      })
+      .getEntries({ content_type: "myportfolio", limit: 1 })
       .then((res) => {
         if (!res.items.length) return;
-
         const fields = res.items[0].fields;
-
         setPortfolioItems(fields.portfolioView || []);
         setImages(fields.images || []);
       })
       .catch(console.error);
   }, []);
 
-  const filteredItems =
-    activeFilter === 'all'
-      ? portfolioItems
-      : portfolioItems.filter(item => item.category === activeFilter);
+  const filters = ['all', 'web', 'app', 'ecommerce', 'gym'];
+
+  const filteredItems = activeFilter === 'all'
+    ? portfolioItems
+    : portfolioItems.filter(item => item.category === activeFilter);
 
   return (
     <section id="portfolio" className="section portfolio">
-      <div className="bg-shape bg-circle"></div>
-      <div className="bg-shape bg-triangle"></div>
+      <div className="bg-blob bg-blob-2" />
+      <div className="z1" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
+        <div className="section-head">
+          <div className="section-label">My Work</div>
+          <h2 className="section-title">Recent Projects</h2>
+          <p className="section-subtitle">A selection of projects that showcase my skills and attention to detail.</p>
+        </div>
 
-      <Container>
-        <h2 className="section-title">My Portfolio</h2>
-        <p className="section-subtitle">Some of my recent work</p>
-
-        {/* FILTER BUTTONS */}
-        <div className="portfolio-filter d-flex justify-content-center flex-wrap mb-5">
-          {["all", "web", "app", "ecommerce", "gym"].map(type => (
-            <Button
-              key={type}
-              variant={activeFilter === type ? 'primary' : 'outline-primary'}
-              className="me-2 mb-2"
-              onClick={() => setActiveFilter(type)}
+        {/* Filters */}
+        <div className="portfolio-filters">
+          {filters.map(f => (
+            <button
+              key={f}
+              className={`filter-btn${activeFilter === f ? ' active' : ''}`}
+              onClick={() => setActiveFilter(f)}
             >
-              {type === "all" ? "All" : type}
-            </Button>
+              {f.charAt(0).toUpperCase() + f.slice(1)}
+            </button>
           ))}
         </div>
 
-        {/* PORTFOLIO GRID */}
-        <div className="row">
+        {/* Grid */}
+        <div className="portfolio-grid">
           {filteredItems.map((item, index) => (
-            <div key={item.id} className="col-lg-4 col-md-6 mb-4">
-              <div className="portfolio-item">
-
-                <div className="portfolio-img">
-                  <img
-                    src={images[index + 2]?.url}
-                    alt={item.title}
-                    className="img-fluid"
-                  />
-
-                  <div className="portfolio-overlay d-flex align-items-center justify-content-center">
-                    {item.githubLink && (
-                      <a href={item.githubLink} target="_blank" rel="noreferrer">
-                        <FaGithub />
-                      </a>
-                    )}
-                    {item.liveLink && (
-                      <a href={item.liveLink} target="_blank" rel="noreferrer">
-                        <FaLink />
-                      </a>
-                    )}
-                  </div>
+            <div key={item.id || index} className="portfolio-card">
+              <div className="portfolio-img">
+                {images[index + 2]?.url ? (
+                  <img src={images[index + 2].url} alt={item.title} />
+                ) : (
+                  <div style={{ width:'100%', height:'100%', background:'var(--gradient)', opacity:0.6 }} />
+                )}
+                <div className="portfolio-overlay">
+                  {item.githubLink && (
+                    <a href={item.githubLink} target="_blank" rel="noreferrer" className="overlay-btn" aria-label="GitHub">
+                      <FaGithub />
+                    </a>
+                  )}
+                  {item.liveLink && (
+                    <a href={item.liveLink} target="_blank" rel="noreferrer" className="overlay-btn" aria-label="Live preview">
+                      <FaLink />
+                    </a>
+                  )}
                 </div>
+              </div>
 
-                <div className="portfolio-info p-4">
-                  <h3>{item.title}</h3>
-                  <p className="mb-3">{item.description}</p>
-
-                  <div className="portfolio-tags d-flex flex-wrap gap-2">
-                    {item.tags?.map(tag => (
-                      <span key={tag} className="portfolio-tag">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <Button
-                    variant="primary"
-                    className="mt-3"
-                    href={item.liveLink}
-                    target="_blank"
-                  >
-                    Preview
-                  </Button>
+              <div className="portfolio-info">
+                {item.category && <div className="portfolio-category">{item.category}</div>}
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <div className="portfolio-tags">
+                  {item.tags?.map(tag => <span key={tag} className="p-tag">{tag}</span>)}
                 </div>
-
+                {item.liveLink && (
+                  <a href={item.liveLink} target="_blank" rel="noreferrer" className="portfolio-preview-btn">
+                    Live Preview →
+                  </a>
+                )}
               </div>
             </div>
           ))}
         </div>
-      </Container>
+      </div>
     </section>
   );
 };

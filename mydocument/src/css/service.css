@@ -1,0 +1,113 @@
+.services { background: var(--bg-primary); }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.service-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 44px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: default;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--gradient);
+  transform: scaleX(0);
+  transition: var(--transition);
+  transform-origin: left;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
+}
+
+.service-card:hover::before { transform: scaleX(1); }
+
+.service-icon-wrap {
+  width: 68px; height: 68px;
+  border-radius: 20px;
+  background: var(--accent-glow);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 28px;
+  transition: var(--transition);
+  border: 1px solid rgba(92,107,192,0.2);
+}
+
+.service-card:hover .service-icon-wrap {
+  background: var(--gradient);
+  border-color: transparent;
+  box-shadow: var(--shadow-accent);
+}
+
+.service-icon-wrap svg,
+.service-icon-wrap * {
+  color: var(--accent);
+  font-size: 1.8rem;
+  transition: var(--transition);
+}
+
+.service-card:hover .service-icon-wrap svg,
+.service-card:hover .service-icon-wrap * {
+  color: white;
+}
+
+.service-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;           /* was 700 */
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.service-card p {
+  color: var(--text-secondary); /* was --text-muted */
+  font-size: 0.97rem;
+  font-weight: 450;
+  line-height: 1.75;
+  margin-bottom: 28px;
+}
+
+.service-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  transition: var(--transition);
+}
+
+.service-link:hover {
+  gap: 14px;
+  color: var(--accent-hover);
+}
+
+.service-number {
+  position: absolute;
+  top: 24px; right: 28px;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--border-color);
+  line-height: 1;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.service-card:hover .service-number { color: var(--accent-glow); }

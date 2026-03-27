@@ -1,0 +1,64 @@
+.loader-wrapper {
+  height: 100vh; width: 100%;
+  background-color: #0e0e1a;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  gap: 24px;
+}
+
+.loader-logo {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  animation: fadeInLogo 0.5s 0.3s ease forwards;
+}
+
+.loader-logo span { color: #7986cb; }
+
+.loader-ring {
+  position: relative;
+  width: 56px; height: 56px;
+}
+
+.loader-ring::before {
+  content: '';
+  position: absolute; inset: 0;
+  border: 3px solid rgba(121,134,203,0.15);
+  border-radius: 50%;
+}
+
+.loader-ring::after {
+  content: '';
+  position: absolute; inset: 0;
+  border: 3px solid transparent;
+  border-top-color: #7986cb;
+  border-right-color: #7986cb;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+.loader-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6868a0;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInLogo {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
