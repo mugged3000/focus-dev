@@ -100,7 +100,7 @@ const Home = () => {
               <div className="float-card-icon"><FaStar /></div>
               <div className="float-card-text">
                 <strong>Projects Done</strong>
-                <span>3+ Delivered</span>
+                <span>40+ Delivered</span>
               </div>
             </div>
 
