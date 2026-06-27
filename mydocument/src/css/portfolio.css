@@ -1,11 +1,12 @@
 .portfolio { background: var(--bg-secondary); }
 
+/* ── Filters ─────────────────────────────────────── */
 .portfolio-filters {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 52px;
+  margin-bottom: 24px;
 }
 
 .filter-btn {
@@ -30,6 +31,31 @@
   box-shadow: var(--shadow-accent);
 }
 
+/* ── Category description banner ─────────────────── */
+.category-description {
+  margin: 0 auto 40px;
+  max-width: 680px;
+  text-align: center;
+  padding: 16px 24px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  animation: fadeSlideDown 0.28s ease both;
+}
+
+.category-description p {
+  font-size: 0.93rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Grid ─────────────────────────────────────────── */
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -40,6 +66,7 @@
   .portfolio-grid { grid-template-columns: 1fr; }
 }
 
+/* ── Card ─────────────────────────────────────────── */
 .portfolio-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -102,6 +129,7 @@
   transform: translateY(-4px);
 }
 
+/* ── Card info ────────────────────────────────────── */
 .portfolio-info { padding: 28px; }
 
 .portfolio-category {
@@ -117,14 +145,14 @@
 .portfolio-info h3 {
   font-family: var(--font-display);
   font-size: 1.22rem;
-  font-weight: 800;           /* was 700 */
+  font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 10px;
   letter-spacing: -0.01em;
 }
 
 .portfolio-info p {
-  color: var(--text-secondary); /* was --text-muted */
+  color: var(--text-secondary);
   font-size: 0.94rem;
   font-weight: 450;
   line-height: 1.7;
@@ -136,11 +164,11 @@
 .p-tag {
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
-  color: var(--text-secondary); /* was --text-muted */
+  color: var(--text-secondary);
   padding: 4px 12px;
   border-radius: 50px;
-  font-size: 0.8rem;           /* was 0.78 */
-  font-weight: 600;            /* was 500 */
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .portfolio-preview-btn {

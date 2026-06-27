@@ -27,7 +27,7 @@ const Header = ({ theme, toggleTheme }) => {
         {/* Logo */}
         <a href="#home" className="logo-wrap" onClick={e => { e.preventDefault(); scrollTo('home'); }}>
           <div className="logo-icon"><FaCode /></div>
-          Focus<span>Dev</span>
+          Focus<span>DevX</span>
         </a>
 
         {/* Nav */}

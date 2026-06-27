@@ -11,7 +11,7 @@ const About = () => {
 
   const statsData = [
     { label: "Projects Completed", target: 40 },
-    { label: "Years Experience", target: 5 },
+    { label: "Years Experience", target: 6 },
     { label: "Client Satisfaction", target: 80 },
   ];
   const [counters, setCounters] = useState(statsData.map(() => 0));
@@ -68,7 +68,7 @@ const About = () => {
               )}
             </div>
             <div className="about-img-badge">
-              <strong>5+</strong>
+              <strong>6</strong>
               <span>Years Exp.</span>
             </div>
           </div>

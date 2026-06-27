@@ -1,6 +1,6 @@
 import React from 'react';
-import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
-import { FaGithub, FaLinkedin, FaTwitter, FaDribbble, FaCodepen } from 'react-icons/fa';
+import { FiMail, FiPhone, FiMapPin, FiInstagram } from 'react-icons/fi';
+import { FaGithub, FaLinkedin, FaTwitter, FaInstagram , FaCodepen } from 'react-icons/fa';
 import '../css/contact.css';
 
 const Contact = () => {
@@ -56,11 +56,10 @@ const Contact = () => {
 
             <div className="contact-social-title">Find Me Online</div>
             <div className="contact-socials">
-              <a href="#" className="social-pill"><FaGithub /> GitHub</a>
-              <a href="#" className="social-pill"><FaLinkedin /> LinkedIn</a>
-              <a href="#" className="social-pill"><FaTwitter /> Twitter</a>
-              <a href="#" className="social-pill"><FaDribbble /> Dribbble</a>
-              <a href="#" className="social-pill"><FaCodepen /> CodePen</a>
+              <a href="https://github.com/mugged3000" target="_blank" className="social-pill"><FaGithub /> GitHub</a>
+              <a href="https://www.linkedin.com/in/focus-devx/" target="_blank" className="social-pill"><FaLinkedin /> LinkedIn</a>
+              <a href="https://x.com/Focus_DevX" target="_blank" className="social-pill"><FaTwitter /> Twitter</a>
+              <a href="https://www.instagram.com/focus.devx_global?igsh=MXA1NHBoaGt6NGViZw==" target="_blank" className="social-pill"><FiInstagram /> Instagram</a>
             </div>
           </div>
 

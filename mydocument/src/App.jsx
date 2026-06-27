@@ -11,7 +11,7 @@ import Loader from './components/Loader.jsx';
 import './App.css';
 
 function App() {
-  const devName = "focus-dev";
+  const devName = "focus-devX";
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('fd-theme') || 'light';

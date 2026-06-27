@@ -75,7 +75,7 @@ const Home = () => {
             </div>
             <div className="hero-badge">
               <span className="hero-badge-icon"><FaStar /></span>
-              4+ Years Exp.
+              6 Years Exp.
             </div>
           </div>
         </div>

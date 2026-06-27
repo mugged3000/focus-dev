@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaCode, FaArrowUp, FaGithub, FaLinkedin, FaTwitter, FaDribbble, FaCodepen } from 'react-icons/fa';
+import { FaCode, FaArrowUp, FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = ({ brandName }) => {
   const [showArrow, setShowArrow] = useState(false);
@@ -20,7 +20,7 @@ const Footer = ({ brandName }) => {
             <div className="footer-brand">
               <a href="#home" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 <div className="logo-icon"><FaCode /></div>
-                Focus<span style={{ color: 'var(--accent)' }}>Dev</span>
+                Focus<span style={{ color: 'var(--accent)' }}>DevX</span>
               </a>
               <p>Software engineer passionate about designing and developing efficient, scalable applications that deliver real-world value.</p>
             </div>
@@ -62,11 +62,10 @@ const Footer = ({ brandName }) => {
           <div className="footer-bottom">
             <p>© {year} {brandName}. All Rights Reserved. Crafted with care.</p>
             <div className="footer-social">
-              <a href="#" aria-label="GitHub"><FaGithub /></a>
-              <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
-              <a href="#" aria-label="Twitter"><FaTwitter /></a>
-              <a href="#" aria-label="Dribbble"><FaDribbble /></a>
-              <a href="#" aria-label="CodePen"><FaCodepen /></a>
+              <a href="https://github.com/mugged3000" target="_blank" aria-label="GitHub"><FaGithub /></a>
+              <a href="https://www.linkedin.com/in/focus-devx/" target="_blank" aria-label="LinkedIn"><FaLinkedin /></a>
+              <a href="https://x.com/Focus_DevX" target="_blank" aria-label="Twitter"><FaTwitter /></a>
+              <a href="https://www.instagram.com/focus.devx_global?igsh=MXA1NHBoaGt6NGViZw==" target="_blank" aria-label="Instagram"><FaInstagram /></a>
             </div>
           </div>
         </div>
