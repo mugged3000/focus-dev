@@ -1,5 +1,5 @@
 
-<h1 align="center">Focus Dev</h1>
+<h1 align="center">Focus DevX</h1>
 
 <p align="center">
  <img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
@@ -11,7 +11,7 @@
 
 ## ✨ About the Project
 
-I’m **Focus Dev**, a Software Developer, and this is my portfolio where I showcase the web applications I’ve built. It highlights my skills in both frontend and backend development and demonstrates how I approach building clean, maintainable, and high-performance code. Here, you’ll find projects that are responsive, user-friendly, and fully functional, reflecting my drive to solve real-world problems through thoughtful design and practical solutions.
+I’m **Focus DevX**, a Software Developer, and this is my portfolio where I showcase the web applications I’ve built. It highlights my skills in both frontend and backend development and demonstrates how I approach building clean, maintainable, and high-performance code. Here, you’ll find projects that are responsive, user-friendly, and fully functional, reflecting my drive to solve real-world problems through thoughtful design and practical solutions.
 
 ---
 
@@ -113,5 +113,5 @@ Reach out to me on:
 
 ## 📄 License
 
-Copyright © 2026, **Focus Webdev** – All Rights Reserved.
+Copyright © 2026, **Focus DevX** – All Rights Reserved.
 Private & proprietary; unauthorized use or distribution is prohibited. 
