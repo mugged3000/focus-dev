@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { FaWhatsapp } from 'react-icons/fa';
 import './WhatsAppButton.css';
 
-const PHONE = '2349038375620'; // international format, no "+"
+const PHONE = '2347075405390'; // international format, no "+"
 const MESSAGE = "Hi Focus_DevX, I saw your portfolio and I'd like to talk about a project.";
 
 const WhatsAppButton = () => {
