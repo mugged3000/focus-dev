@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, lazy, Suspense } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaGithub, FaCode, FaStar } from 'react-icons/fa';
 import { HiLightningBolt } from 'react-icons/hi';
 import { contentfulClient } from '../Contentfull';
+import { scrollToId } from '../lib/smoothScroll';
 import '../css/home.css';
+
+gsap.registerPlugin(ScrollTrigger);
+
+// three.js is heavy, so it loads in its own chunk after the page is interactive
+const HeroScene = lazy(() => import('../components/HeroScene'));
 
 const DEFAULT_TITLE = 'Building Digital Experiences That Matter';
 const DEFAULT_DESC =
@@ -18,7 +26,21 @@ const splitTitle = (title) => {
   };
 };
 
+// Each word sits in a mask so it can rise into place
+const Words = ({ text }) =>
+  text
+    .trim()
+    .split(/\s+/)
+    .map((word, i) => (
+      <React.Fragment key={i}>
+        <span className="w" aria-hidden="true">
+          <span className="wi">{word}</span>
+        </span>{' '}
+      </React.Fragment>
+    ));
+
 const Home = () => {
+  const rootRef = useRef(null);
   const [heroTitle, setHeroTitle] = useState(DEFAULT_TITLE);
   const [heroDescription, setHeroDescription] = useState(DEFAULT_DESC);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,35 +64,64 @@ const Home = () => {
     };
   }, []);
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.offsetTop - 72, behavior: 'smooth' });
-  };
+  // Intro sequence + scroll-out, once the content is ready
+  useLayoutEffect(() => {
+    if (isLoading) return undefined;
+    const root = rootRef.current;
+    if (!root) return undefined;
+
+    const mm = gsap.matchMedia();
+    mm.add(
+      '(prefers-reduced-motion: no-preference)',
+      () => {
+        const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+        tl.fromTo('.hero-availability', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 1 })
+          .fromTo('.hero-title .wi', { yPercent: 118, rotate: 4 }, { yPercent: 0, rotate: 0, duration: 1.35, stagger: 0.07 }, 0.1)
+          .fromTo('.hero-desc', { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 1.1 }, 0.6)
+          .fromTo('.hero-text-actions', { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 1.1 }, 0.72)
+          .fromTo('.hero-badges', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1 }, 0.88)
+          .fromTo('.hero-float-card', { opacity: 0 }, { opacity: 1, duration: 1.4, stagger: 0.25 }, 1.1);
+
+        // Text drifts up and fades as the hero leaves
+        gsap.to('.hero-text', {
+          y: -70,
+          opacity: 0.15,
+          ease: 'none',
+          scrollTrigger: { trigger: root, start: 'top top', end: 'bottom top+=160', scrub: true },
+        });
+      },
+      root
+    );
+
+    return () => mm.revert();
+  }, [isLoading]);
 
   const { lead, accent } = splitTitle(heroTitle);
 
   return (
-    <section id="home" className="hero">
+    <section id="home" className="hero" ref={rootRef}>
       <div className="hero-inner">
         {/* ── Text Side ── */}
-        <div className={`hero-text ${isLoading ? 'hero-loading' : 'hero-loaded'}`}>
+        <div className={`hero-text ${isLoading ? 'hero-loading' : ''}`}>
           <div className="hero-availability">
             <span className="hero-availability-dot" aria-hidden="true" />
             <span className="hero-availability-text">Available for Hire</span>
           </div>
 
-          <h1 className="hero-title">
-            {lead && <>{lead} </>}
-            <span className="highlight">{accent}</span>
+          <h1 className="hero-title" aria-label={heroTitle}>
+            {lead && <Words text={lead} />}
+            <span className="highlight">
+              <Words text={accent} />
+            </span>
           </h1>
 
           <p className="hero-desc">{heroDescription}</p>
 
           <div className="hero-text-actions">
-            <button type="button" className="btn-primary-custom" onClick={() => scrollTo('portfolio')}>
+            <button type="button" className="btn-primary-custom" onClick={() => scrollToId('portfolio')}>
               View My Work →
             </button>
-            <button type="button" className="btn-outline-custom" onClick={() => scrollTo('contact')}>
+            <button type="button" className="btn-outline-custom" onClick={() => scrollToId('contact')}>
               Hire Me
             </button>
           </div>
@@ -91,10 +142,12 @@ const Home = () => {
           </div>
         </div>
 
-        {/* ── Visual Side (no image, just the frame + floating cards) ── */}
+        {/* ── 3D Side ── */}
         <div className="hero-visual">
           <div className="hero-img-wrap">
-            <div className="hero-frame" aria-hidden="true" />
+            <Suspense fallback={null}>
+              <HeroScene />
+            </Suspense>
 
             <div className="hero-float-card card-a">
               <div className="float-card-icon"><FaStar aria-hidden="true" /></div>
@@ -121,7 +174,7 @@ const Home = () => {
         aria-label="Scroll to About section"
         onClick={(e) => {
           e.preventDefault();
-          scrollTo('about');
+          scrollToId('about');
         }}
       >
         <div className="hero-scroll-line" />

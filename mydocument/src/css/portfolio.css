@@ -1,4 +1,11 @@
-.portfolio { background: var(--bg-secondary); }
+.section.portfolio {
+  background: var(--bg-secondary);
+  /* clip (not hidden) so position: sticky keeps working inside the section */
+  overflow: visible;
+  overflow: clip;
+}
+
+.portfolio-wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
 /* ── Filters ─────────────────────────────────────── */
 .portfolio-filters {
@@ -6,30 +13,37 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .filter-btn {
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-color);
-  color: var(--text-secondary);
-  padding: 9px 22px;
-  border-radius: 50px;
-  font-size: 0.88rem;
+  position: relative;
+  background: transparent;
+  border: 0;
+  padding: 10px 6px;
+  margin: 0 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
   font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
   cursor: pointer;
-  transition: var(--transition);
-  font-family: var(--font-body);
+  transition: color 0.25s ease;
 }
-
-.filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-.filter-btn.active {
-  background: var(--gradient);
-  color: white;
-  border-color: transparent;
-  box-shadow: var(--shadow-accent);
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 2px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
 }
+.filter-btn:hover { color: var(--text-primary); }
+.filter-btn.active { color: var(--text-primary); }
+.filter-btn.active::after { transform: scaleX(1); }
 
 /* ── Category description banner ─────────────────── */
 .category-description {
@@ -55,132 +69,194 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Grid ─────────────────────────────────────────── */
-.portfolio-grid {
+/* ── Sticky stacked cards ─────────────────────────── */
+.stack {
+  --stack-top: 112px;
+  --stack-step: 26px;
+  --card-h: clamp(440px, 68vh, 560px);
+  padding-bottom: 6vh;
+}
+
+.stack-card {
+  position: sticky;
+  top: calc(var(--stack-top) + var(--i) * var(--stack-step));
+  height: var(--card-h);
+  margin-bottom: 14vh;
+}
+.stack-card:last-child { margin-bottom: 0; }
+
+.stack-card-inner {
+  position: relative;
+  height: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 28px;
-}
-
-@media (max-width: 480px) {
-  .portfolio-grid { grid-template-columns: 1fr; }
-}
-
-/* ── Card ─────────────────────────────────────────── */
-.portfolio-card {
+  grid-template-columns: 5fr 7fr;
+  overflow: hidden;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  overflow: hidden;
-  transition: var(--transition);
-}
-
-.portfolio-card:hover {
-  transform: translateY(-8px);
   box-shadow: var(--shadow-lg);
-  border-color: var(--accent);
+  transform-origin: 50% 0;
+  will-change: transform;
 }
 
-.portfolio-img {
-  position: relative;
-  height: 220px;
-  overflow: hidden;
-  background: var(--gradient);
-}
-
-.portfolio-img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.portfolio-card:hover .portfolio-img img { transform: scale(1.08); }
-
-.portfolio-overlay {
-  position: absolute; inset: 0;
-  background: rgba(26, 35, 126, 0.88);
+/* Info column */
+.stack-info {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  padding: 44px 44px 40px;
+  min-width: 0;
+}
+
+.stack-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
   gap: 16px;
-  opacity: 0;
-  transition: var(--transition);
-}
-
-.portfolio-card:hover .portfolio-overlay { opacity: 1; }
-
-.overlay-btn {
-  width: 48px; height: 48px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.15);
-  border: 1.5px solid rgba(255,255,255,0.3);
-  color: white;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem;
-  transition: var(--transition);
-  text-decoration: none;
-  backdrop-filter: blur(8px);
-}
-
-.overlay-btn:hover {
-  background: white;
-  color: var(--accent);
-  border-color: white;
-  transform: translateY(-4px);
-}
-
-/* ── Card info ────────────────────────────────────── */
-.portfolio-info { padding: 28px; }
-
-.portfolio-category {
+  padding-bottom: 18px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--border-color);
   font-family: var(--font-mono);
+}
+
+.stack-index {
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.stack-index i {
+  font-style: normal;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.stack-cat {
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 10px;
 }
 
-.portfolio-info h3 {
+.stack-info h3 {
   font-family: var(--font-display);
-  font-size: 1.22rem;
+  font-size: clamp(1.6rem, 2.6vw, 2.35rem);
   font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
   color: var(--text-primary);
-  margin-bottom: 10px;
-  letter-spacing: -0.01em;
+  margin: 0 0 16px;
 }
 
-.portfolio-info p {
+.stack-info p {
   color: var(--text-secondary);
-  font-size: 0.94rem;
-  font-weight: 450;
-  line-height: 1.7;
-  margin-bottom: 18px;
+  font-size: 0.97rem;
+  line-height: 1.75;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.portfolio-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-
-.p-tag {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-size: 0.8rem;
+.stack-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+}
+.stack-tags li {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
   font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  padding: 5px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
 }
 
-.portfolio-preview-btn {
+.stack-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.stack-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: var(--accent);
+  gap: 6px;
   font-family: var(--font-mono);
-  transition: var(--transition);
-  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.stack-link:hover { color: var(--accent); border-color: var(--accent); }
+.stack-link--main { color: var(--text-primary); border-color: var(--text-primary); }
+.stack-link svg { transition: transform 0.3s ease; }
+.stack-link--main:hover svg { transform: translate(2px, -2px); }
+
+/* Media column */
+.stack-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-input);
+  border-left: 1px solid var(--border-color);
+}
+.stack-media img {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  max-width: none;
+  object-fit: cover;
+  will-change: transform;
+}
+.stack-media-fallback {
+  position: absolute; inset: 0;
+  background: var(--gradient);
+  opacity: 0.6;
 }
 
-.portfolio-preview-btn:hover { gap: 14px; color: var(--accent-hover); }
+/* Darkens cards as they get buried */
+.stack-shade {
+  position: absolute; inset: 0;
+  background: #07070f;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .portfolio-wrap { padding: 0 20px; }
+  .stack { --stack-top: 84px; --stack-step: 14px; --card-h: auto; }
+  .stack-card { margin-bottom: 10vh; }
+  .stack-card-inner { grid-template-columns: 1fr; grid-template-rows: auto auto; }
+  .stack-media { order: -1; height: 200px; border-left: 0; border-bottom: 1px solid var(--border-color); }
+  .stack-info { padding: 24px 22px 26px; }
+  .stack-meta { margin-bottom: 18px; padding-bottom: 14px; }
+  .stack-index { font-size: 1.3rem; }
+  .stack-info p { -webkit-line-clamp: 3; font-size: 0.92rem; }
+  .stack-tags { margin-top: 16px; }
+  .stack-links { padding-top: 18px; }
+}
+
+@media (max-width: 480px) {
+  .portfolio-wrap { padding: 0 16px; }
+  .stack-media { height: 170px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-media img { inset: 0; height: 100%; }
+}

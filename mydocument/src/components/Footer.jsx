@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaArrowUp, FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { scrollToTop } from '../lib/smoothScroll';
 import logo from '../../public/images/focus-devx-logo.png';
 import '../css/footer.css';
 
@@ -145,7 +146,7 @@ const Footer = ({ brandName, theme }) => {
       <a
         href="#home"
         className={`ft-top${showArrow ? ' visible' : ''}`}
-        onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        onClick={(e) => { e.preventDefault(); scrollToTop(); }}
         aria-label="Back to top"
       >
         <FaArrowUp />

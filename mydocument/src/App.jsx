@@ -8,6 +8,9 @@ import Testimonials from './Pages/Testimonial.jsx';
 import Contact from './Pages/Contacts.jsx';
 import Footer from './components/Footer.jsx';
 import Loader from './components/Loader.jsx';
+import WhatsAppButton from './components/WhatsAppButton.jsx';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { initSmoothScroll } from './lib/smoothScroll';
 import './App.css';
 
 function App() {
@@ -26,6 +29,27 @@ function App() {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
+  // Lenis smooth scroll, wired into GSAP's ticker
+  useEffect(() => initSmoothScroll(), []);
+
+  // Content arrives async (Contentful, images, fonts): keep ScrollTrigger measurements fresh
+  useEffect(() => {
+    let t;
+    const refresh = () => {
+      clearTimeout(t);
+      t = setTimeout(() => ScrollTrigger.refresh(), 250);
+    };
+    const ro = new ResizeObserver(refresh);
+    ro.observe(document.body);
+    document.fonts?.ready.then(refresh);
+    window.addEventListener('load', refresh);
+    return () => {
+      clearTimeout(t);
+      ro.disconnect();
+      window.removeEventListener('load', refresh);
+    };
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2500);
     return () => clearTimeout(timer);
@@ -43,6 +67,7 @@ function App() {
       <Testimonials />
       <Contact />
       <Footer brandName={devName} />
+      <WhatsAppButton />
     </div>
   );
 }

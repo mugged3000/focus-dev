@@ -299,3 +299,40 @@
   .hero-scroll,
   .hero-loaded { animation: none; }
 }
+
+/* ============================================================
+   3D HERO OVERRIDES
+   ============================================================ */
+.hero-title .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.hero-title .wi { display: inline-block; will-change: transform; transform-origin: 0 100%; }
+
+.hero-img-wrap {
+  width: 100%;
+  max-width: 560px;
+  height: clamp(380px, 62vh, 580px);
+}
+.hero-frame { display: none; }
+
+.hero-scene { position: absolute; inset: -40px -60px; pointer-events: none; }
+.hero-scene canvas { display: block; width: 100%; height: 100%; }
+
+.hero-float-card.card-a { top: 14%; left: -10px; }
+.hero-float-card.card-b { bottom: 14%; right: -10px; }
+
+@media (max-width: 900px) {
+  .hero-img-wrap { width: 100%; height: 380px; margin: 0 auto; }
+  .hero-scene { inset: -20px -30px; }
+}
+@media (max-width: 600px) {
+  .hero-float-card.card-a { left: 0; top: 8%; }
+  .hero-float-card.card-b { right: 0; bottom: 8%; }
+}
+@media (max-width: 480px) {
+  .hero-img-wrap { width: 100%; height: 320px; }
+}

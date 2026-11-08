@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { FaGithub, FaLink } from 'react-icons/fa';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FaGithub } from 'react-icons/fa';
+import { FiArrowUpRight } from 'react-icons/fi';
 import { contentfulClient } from '../Contentfull';
+import { useReveal } from '../lib/useReveal';
 import '../css/portfolio.css';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const pad = (n) => String(n).padStart(2, '0');
 
 // ─── Category config ───────────────────────────────────────────────────────────
 const CATEGORIES = [
@@ -24,11 +32,8 @@ const CATEGORIES = [
   },
 ];
 
-// ─── Foundation keywords ───────────────────────────────────────────────────────
-// Any project whose title includes one of these goes to Foundation.
-// Everything else is Professional automatically.
 // Only Food Recipe and E-Commerce Platform are Foundation tier.
-// Everything else (Full-stack, Gym, End-to-End Commerce) is Professional automatically.
+// Everything else is Professional automatically.
 const FOUNDATION_TITLES = ['food recipe store', 'e-commerce site'];
 
 const getItemCategory = (item) => {
@@ -42,19 +47,12 @@ const getItemCategory = (item) => {
   return 'professional';
 };
 
-// ─── Image mapping ─────────────────────────────────────────────────────────────
-// images[0] = profile dp
-// images[1] = hero
-// images[2..N] = project images, in the same order as portfolioView
-// images[N+1], [N+2] = testimonial images (at the end)
-// So project at portfolioView index i → images[i + 2]
-// When you add a new project in Contentful, add its image at the matching
-// position in the images array (before the testimonial images at the end).
-
 const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [portfolioItems, setPortfolioItems] = useState([]);
   const [images, setImages] = useState([]);
+  const sectionRef = useRef(null);
+  const stackRef = useRef(null);
 
   useEffect(() => {
     contentfulClient
@@ -69,7 +67,6 @@ const Portfolio = () => {
   }, []);
 
   // Map each project to its image by matching keywords in the image alt text
-  // This is more reliable than relying on array order in Contentful
   const getImageForItem = (item) => {
     const titleLower = (item.title || '').toLowerCase();
     return images.find((img) => {
@@ -91,11 +88,72 @@ const Portfolio = () => {
 
   const activeCategoryMeta = CATEGORIES.find((c) => c.id === activeFilter);
 
+  useReveal(sectionRef, []);
+
+  // Sticky stack: earlier cards recede (scale + shade) as each new card slides over them
+  useLayoutEffect(() => {
+    const root = stackRef.current;
+    if (!root) return undefined;
+
+    const mm = gsap.matchMedia();
+    mm.add(
+      { motion: '(prefers-reduced-motion: no-preference)', desktop: '(min-width: 901px)' },
+      (ctx) => {
+        if (!ctx.conditions.motion) return;
+        const top = ctx.conditions.desktop ? 112 : 84;
+        const step = ctx.conditions.desktop ? 26 : 14;
+        const cards = gsap.utils.toArray('.stack-card', root);
+        const SCALE = 0.045;
+        const SHADE = 0.14;
+
+        // Image parallax inside each card
+        cards.forEach((card) => {
+          const img = card.querySelector('.stack-media img');
+          if (!img) return;
+          gsap.fromTo(
+            img,
+            { yPercent: -7 },
+            {
+              yPercent: 7,
+              ease: 'none',
+              scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: true },
+            }
+          );
+        });
+
+        // Depth: when card j arrives, every card beneath it steps back one level
+        cards.forEach((card, j) => {
+          if (j === 0) return;
+          const stickAt = top + j * step;
+          cards.slice(0, j).forEach((prev, i) => {
+            const depth = j - i;
+            const inner = prev.querySelector('.stack-card-inner');
+            const shade = prev.querySelector('.stack-shade');
+            const trigger = { trigger: card, start: 'top 92%', end: `top ${stickAt}px`, scrub: true };
+            gsap.fromTo(
+              inner,
+              { scale: 1 - (depth - 1) * SCALE },
+              { scale: 1 - depth * SCALE, ease: 'none', immediateRender: false, scrollTrigger: trigger }
+            );
+            gsap.fromTo(
+              shade,
+              { opacity: Math.min((depth - 1) * SHADE, 0.6) },
+              { opacity: Math.min(depth * SHADE, 0.6), ease: 'none', immediateRender: false, scrollTrigger: trigger }
+            );
+          });
+        });
+      },
+      root
+    );
+
+    return () => mm.revert();
+  }, [activeFilter, portfolioItems.length, images.length]);
+
   return (
-    <section id="portfolio" className="section portfolio">
+    <section id="portfolio" className="section portfolio" ref={sectionRef}>
       <div className="bg-blob bg-blob-2" />
-      <div className="z1" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
-        <div className="section-head">
+      <div className="z1 portfolio-wrap">
+        <div className="section-head" data-reveal>
           <div className="section-label">My Work</div>
           <h2 className="section-title">Recent Projects</h2>
           <p className="section-subtitle">
@@ -104,10 +162,11 @@ const Portfolio = () => {
         </div>
 
         {/* Filters */}
-        <div className="portfolio-filters">
+        <div className="portfolio-filters" data-reveal>
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
+              type="button"
               className={`filter-btn${activeFilter === cat.id ? ' active' : ''}`}
               onClick={() => setActiveFilter(cat.id)}
             >
@@ -116,84 +175,66 @@ const Portfolio = () => {
           ))}
         </div>
 
-        {/* Category description banner */}
         {activeCategoryMeta?.description && (
           <div className="category-description">
             <p>{activeCategoryMeta.description}</p>
           </div>
         )}
 
-        {/* Grid */}
-        <div className="portfolio-grid">
-          {filteredItems.map((item) => {
+        {/* Sticky stack */}
+        <div className="stack" ref={stackRef} key={activeFilter}>
+          {filteredItems.map((item, i) => {
             const imageUrl = getImageForItem(item)?.url;
+            const category = getItemCategory(item);
 
             return (
-              <div className="portfolio-card">
-                <div className="portfolio-img">
-                  {imageUrl ? (
-                    <img src={imageUrl} alt={item.title} />
-                  ) : (
-                    <div
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        background: 'var(--gradient)',
-                        opacity: 0.6,
-                      }}
-                    />
-                  )}
-                  <div className="portfolio-overlay">
-                    {item.githubLink && (
-                      <a
-                        href={item.githubLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="overlay-btn"
-                        aria-label="GitHub"
-                      >
-                        <FaGithub />
-                      </a>
-                    )}
-                    {item.liveLink && (
-                      <a
-                        href={item.liveLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="overlay-btn"
-                        aria-label="Live preview"
-                      >
-                        <FaLink />
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                <div className="portfolio-info">
-                  <div className="portfolio-category">
-                    {getItemCategory(item)}
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <div className="portfolio-tags">
-                    {item.tags?.map((tag) => (
-                      <span key={tag} className="p-tag">
-                        {tag}
+              <article className="stack-card" key={item.title || i} style={{ '--i': i }}>
+                <div className="stack-card-inner">
+                  <div className="stack-info">
+                    <div className="stack-meta">
+                      <span className="stack-index">
+                        {pad(i + 1)}
+                        <i>/{pad(filteredItems.length)}</i>
                       </span>
-                    ))}
+                      <span className="stack-cat">{category}</span>
+                    </div>
+
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+
+                    {item.tags?.length > 0 && (
+                      <ul className="stack-tags">
+                        {item.tags.map((tag) => (
+                          <li key={tag}>{tag}</li>
+                        ))}
+                      </ul>
+                    )}
+
+                    <div className="stack-links">
+                      {item.liveLink && (
+                        <a href={item.liveLink} target="_blank" rel="noreferrer" className="stack-link stack-link--main">
+                          Live preview <FiArrowUpRight aria-hidden="true" />
+                        </a>
+                      )}
+                      {item.githubLink && (
+                        <a href={item.githubLink} target="_blank" rel="noreferrer" className="stack-link">
+                          <FaGithub aria-hidden="true" /> Source
+                        </a>
+                      )}
+                    </div>
                   </div>
-                  {item.liveLink && (
-                    <a
-                      href={item.liveLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="portfolio-preview-btn"
-                    >
-                      Live Preview →
-                    </a>
-                  )}
+
+                  <div className="stack-media">
+                    {imageUrl ? (
+                      <img src={imageUrl} alt={item.title} loading="lazy" />
+                    ) : (
+                      <div className="stack-media-fallback" />
+                    )}
+                  </div>
+
+                  <div className="stack-shade" aria-hidden="true" />
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

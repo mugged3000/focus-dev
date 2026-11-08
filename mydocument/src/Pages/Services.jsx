@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import { MdLaptopMac, MdPhoneIphone, MdClose } from 'react-icons/md';
 import { GrDeploy } from 'react-icons/gr';
 import { contentfulClient } from '../Contentfull';
+import { useReveal } from '../lib/useReveal';
+import { lockScroll, unlockScroll } from '../lib/smoothScroll';
 import '../css/service.css';
 
 const iconMap = {
@@ -75,8 +77,10 @@ const ServiceModal = ({ service, index, closing, onClose }) => {
 
     document.body.style.overflow = 'hidden';
     if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
+    lockScroll();
 
     return () => {
+      unlockScroll();
       document.body.style.overflow = prevOverflow;
       document.body.style.paddingRight = prevPadding;
     };
@@ -93,6 +97,7 @@ const ServiceModal = ({ service, index, closing, onClose }) => {
 
   return (
     <div
+      data-lenis-prevent
       className={`service-modal-overlay${closing ? ' is-closing' : ''}`}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -162,6 +167,7 @@ const Services = () => {
   const [closing, setClosing] = useState(false);
   const triggerRef = useRef(null);
   const closeTimer = useRef(null);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     contentfulClient
@@ -200,11 +206,13 @@ const Services = () => {
 
   const items = services.length > 0 ? services : fallback;
 
+  useReveal(sectionRef, [items.length]);
+
   return (
-    <section id="services" className="section services">
+    <section id="services" className="section services" ref={sectionRef}>
       <div className="bg-blob bg-blob-1" />
       <div className="z1" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
-        <div className="section-head">
+        <div className="section-head" data-reveal>
           <div className="section-label">What I Do</div>
           <h2 className="section-title">My Services</h2>
           <p className="section-subtitle">Focused on delivering exceptional digital experiences from concept to deployment.</p>
@@ -212,21 +220,23 @@ const Services = () => {
 
         <div className="services-grid">
           {items.map((service, index) => (
-            <div key={index} className="service-card">
-              <span className="service-number">0{index + 1}</span>
-              <div className="service-icon-wrap">
-                {iconMap[service.icon] || <MdLaptopMac size={32} />}
+            <div key={index} data-reveal>
+              <div className="service-card">
+                <span className="service-number">0{index + 1}</span>
+                <div className="service-icon-wrap">
+                  {iconMap[service.icon] || <MdLaptopMac size={32} />}
+                </div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <button
+                  type="button"
+                  className="service-link"
+                  aria-haspopup="dialog"
+                  onClick={(e) => openModal(service, index, e)}
+                >
+                  Learn more →
+                </button>
               </div>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-              <button
-                type="button"
-                className="service-link"
-                aria-haspopup="dialog"
-                onClick={(e) => openModal(service, index, e)}
-              >
-                Learn more →
-              </button>
             </div>
           ))}
         </div>
