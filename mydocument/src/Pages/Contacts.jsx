@@ -19,8 +19,8 @@ const Contact = () => {
           <div>
             <h3 className="contact-info-title">Get In Touch</h3>
             <p className="contact-info-desc">
-              I'm currently available for freelance projects and full-time opportunities.
-              Feel free to reach out — I usually respond within 24 hours.
+              I'm currently available for freelance projects and full time opportunities.
+              Feel free to reach out  I usually respond within 24 hours.
             </p>
 
             <div className="contact-items">

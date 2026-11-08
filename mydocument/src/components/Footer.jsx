@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FaCode, FaArrowUp, FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
-
-const Footer = ({ brandName }) => {
+import { FaArrowUp, FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
+import logo from '../../public/images/focus-devx-logo.png';
+import '../css/footer.css';
+const Footer = ({ brandName, theme }) => {
   const [showArrow, setShowArrow] = useState(false);
   const year = new Date().getFullYear();
 
@@ -13,14 +14,21 @@ const Footer = ({ brandName }) => {
 
   return (
     <>
-      <footer className="site-footer">
+      <footer className="site-footer" data-theme={theme}>
         <div className="footer-inner">
           <div className="footer-grid">
             {/* Brand */}
             <div className="footer-brand">
-              <a href="#home" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-                <div className="logo-icon"><FaCode /></div>
-                Focus<span style={{ color: 'var(--accent)' }}>DevX</span>
+              <a href="#home" className="footer-logo" aria-label="Focus_DevX home">
+                <span className="footer-logo-mark">
+                  <img src={logo} alt="" />
+                </span>
+                <span className="footer-logo-text">
+                  <span className="footer-logo-name">
+                    FOCUS<span>_DEVX</span>
+                  </span>
+                  <span className="footer-logo-tag">Ideas to Reality</span>
+                </span>
               </a>
               <p>Software engineer passionate about designing and developing efficient, scalable applications that deliver real-world value.</p>
             </div>

@@ -1,0 +1,262 @@
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.site-header.scrolled {
+  background: var(--bg-primary);
+  background: color-mix(in srgb, var(--bg-primary) 88%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--border-color);
+}
+
+.header-inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* ── Logo ── */
+.logo-wrap {
+  --logo-size: 44px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+/* Crops the F | ▷ mark out of the full logo image */
+.logo-mark {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 11px;
+  background: #0a0a0a;
+  box-shadow: 0 0 0 1px rgba(212, 165, 55, 0.3), var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-mark img {
+  display: block;
+  max-width: none;
+  width: calc(var(--logo-size) * 2.7273);
+  margin-left: calc(var(--logo-size) * -0.9432);
+  margin-top: calc(var(--logo-size) * -0.4841);
+}
+
+.logo-wrap:hover .logo-mark {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(212, 165, 55, 0.6), var(--shadow-md);
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.logo-text span {
+  font-weight: 600;
+  color: #d4a537;
+}
+
+/* Gold needs to be a touch deeper on a light background to stay readable */
+.site-header[data-theme='light'] .logo-text span {
+  color: #a97b14;
+}
+
+/* ── Nav ── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-links a {
+  position: relative;
+  display: block;
+  padding: 8px 0;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: color 0.25s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.nav-links a:hover {
+  color: var(--text-primary);
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Actions ── */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  position: relative;
+  width: 54px;
+  height: 30px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.68rem;
+  color: #fff;
+  background: var(--accent);
+  transition: transform 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.theme-toggle[data-mode='dark'] .toggle-thumb {
+  transform: translateX(24px);
+}
+
+/* ── Hamburger ── */
+.hamburger {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.hamburger span {
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-primary);
+  transition: top 0.3s ease, transform 0.3s ease, opacity 0.2s ease;
+}
+
+.hamburger span:nth-child(1) { top: 13px; }
+.hamburger span:nth-child(2) { top: 19px; }
+.hamburger span:nth-child(3) { top: 25px; }
+
+.hamburger.open span:nth-child(1) { top: 19px; transform: rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { top: 19px; transform: rotate(-45deg); }
+
+/* ── Tablet / Mobile ── */
+@media (max-width: 900px) {
+  .header-inner { padding: 0 24px; }
+
+  .hamburger { display: block; }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 24px 20px;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  }
+
+  .nav-links.open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .nav-links li + li { border-top: 1px solid var(--border-color); }
+  .nav-links a { padding: 16px 0; font-size: 0.82rem; }
+  .nav-links a::after { display: none; }
+}
+
+@media (max-width: 480px) {
+  .header-inner { padding: 0 16px; }
+  .logo-wrap { --logo-size: 40px; gap: 10px; }
+  .logo-text { font-size: 0.9rem; letter-spacing: 0.22em; }
+  .header-actions { gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .logo-mark,
+  .nav-links,
+  .nav-links a::after,
+  .toggle-thumb,
+  .hamburger span { transition: none; }
+}

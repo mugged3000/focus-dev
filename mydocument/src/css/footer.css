@@ -1,0 +1,80 @@
+/* ── Footer logo ── */
+.footer-logo {
+  --logo-size: 52px;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+
+/* Crops the F | ▷ mark out of the full logo image */
+.footer-logo-mark {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #0a0a0a;
+  box-shadow: 0 0 0 1px rgba(212, 165, 55, 0.3), var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer-logo-mark img {
+  display: block;
+  max-width: none;
+  width: calc(var(--logo-size) * 2.7273);
+  margin-left: calc(var(--logo-size) * -0.9432);
+  margin-top: calc(var(--logo-size) * -0.4841);
+}
+
+.footer-logo:hover .footer-logo-mark {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(212, 165, 55, 0.6), var(--shadow-md);
+}
+
+.footer-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.footer-logo-name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.footer-logo-name span {
+  font-weight: 600;
+  color: #d4a537;
+}
+
+.footer-logo-tag {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Deeper gold on a light footer so it stays readable */
+.site-footer[data-theme='light'] .footer-logo-name span {
+  color: #a97b14;
+}
+
+@media (max-width: 480px) {
+  .footer-logo { --logo-size: 46px; gap: 14px; }
+  .footer-logo-name { font-size: 1rem; letter-spacing: 0.22em; }
+  .footer-logo-tag { letter-spacing: 0.26em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-logo-mark { transition: none; }
+}

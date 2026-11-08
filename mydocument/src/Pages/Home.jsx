@@ -1,29 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { FaChevronDown, FaGithub, FaCode, FaStar } from 'react-icons/fa';
+import { FaGithub, FaCode, FaStar } from 'react-icons/fa';
 import { HiLightningBolt } from 'react-icons/hi';
 import { contentfulClient } from '../Contentfull';
 import '../css/home.css';
 
+const DEFAULT_TITLE = 'Building Digital Experiences That Matter';
+const DEFAULT_DESC =
+  'Front-end developer specializing in crafting beautiful, fast, and accessible web applications.';
+
+const splitTitle = (title) => {
+  const words = title.trim().split(/\s+/);
+  if (words.length <= 4) return { lead: '', accent: title };
+  const mid = Math.ceil(words.length / 2);
+  return {
+    lead: words.slice(0, mid).join(' '),
+    accent: words.slice(mid).join(' '),
+  };
+};
+
 const Home = () => {
-  const [heroTitle, setHeroTitle] = useState("Building Digital Experiences That Matter");
-  const [heroDescription, setHeroDescription] = useState("Front-end developer specializing in crafting beautiful, fast, and accessible web applications.");
+  const [heroTitle, setHeroTitle] = useState(DEFAULT_TITLE);
+  const [heroDescription, setHeroDescription] = useState(DEFAULT_DESC);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     contentfulClient
-      .getEntries({ content_type: "myportfolio", limit: 1 })
+      .getEntries({ content_type: 'myportfolio', limit: 1 })
       .then((res) => {
-        if (!res.items.length) return;
+        if (cancelled || !res.items.length) return;
         const fields = res.items[0].fields;
-        setHeroTitle(fields.hero || heroTitle);
-        setHeroDescription(fields.heroDescription || heroDescription);
-        const heroImageUrl = fields.images?.[1]?.url;
-        if (heroImageUrl) {
-          document.documentElement.style.setProperty("--hero-bg-image", `url(${heroImageUrl})`);
-        }
+        setHeroTitle(fields.hero || DEFAULT_TITLE);
+        setHeroDescription(fields.heroDescription || DEFAULT_DESC);
       })
       .catch(console.error)
-      .finally(() => setIsLoading(false));
+      .finally(() => !cancelled && setIsLoading(false));
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const scrollTo = (id) => {
@@ -31,82 +47,65 @@ const Home = () => {
     if (el) window.scrollTo({ top: el.offsetTop - 72, behavior: 'smooth' });
   };
 
+  const { lead, accent } = splitTitle(heroTitle);
+
   return (
     <section id="home" className="hero">
       <div className="hero-inner">
         {/* ── Text Side ── */}
         <div className={`hero-text ${isLoading ? 'hero-loading' : 'hero-loaded'}`}>
-          <div className="hero-eyebrow">
-            <span>Available for work</span>
+          <div className="hero-availability">
+            <span className="hero-availability-dot" aria-hidden="true" />
+            <span className="hero-availability-text">Available for Hire</span>
           </div>
 
           <h1 className="hero-title">
-            {heroTitle.split(' ').length > 4 ? (
-              <>
-                {heroTitle.split(' ').slice(0, Math.ceil(heroTitle.split(' ').length / 2)).join(' ')}{' '}
-                <span className="highlight">
-                  {heroTitle.split(' ').slice(Math.ceil(heroTitle.split(' ').length / 2)).join(' ')}
-                </span>
-              </>
-            ) : (
-              <span className="highlight">{heroTitle}</span>
-            )}
+            {lead && <>{lead} </>}
+            <span className="highlight">{accent}</span>
           </h1>
 
           <p className="hero-desc">{heroDescription}</p>
 
           <div className="hero-text-actions">
-            <button className="btn-primary-custom" onClick={() => scrollTo('portfolio')}>
+            <button type="button" className="btn-primary-custom" onClick={() => scrollTo('portfolio')}>
               View My Work →
             </button>
-            <button className="btn-outline-custom" onClick={() => scrollTo('contact')}>
+            <button type="button" className="btn-outline-custom" onClick={() => scrollTo('contact')}>
               Hire Me
             </button>
           </div>
 
           <div className="hero-badges">
             <div className="hero-badge">
-              <span className="hero-badge-icon"><FaCode /></span>
-             Software Engineer
+              <span className="hero-badge-icon"><FaCode aria-hidden="true" /></span>
+              Software Engineer
             </div>
             <div className="hero-badge">
-              <span className="hero-badge-icon"><HiLightningBolt /></span>
-              Fast & Accessible
+              <span className="hero-badge-icon"><HiLightningBolt aria-hidden="true" /></span>
+              Fast &amp; Accessible
             </div>
             <div className="hero-badge">
-              <span className="hero-badge-icon"><FaStar /></span>
+              <span className="hero-badge-icon"><FaStar aria-hidden="true" /></span>
               6 Years Exp.
             </div>
           </div>
         </div>
 
-        {/* ── Visual Side ── */}
+        {/* ── Visual Side (no image, just the frame + floating cards) ── */}
         <div className="hero-visual">
           <div className="hero-img-wrap">
-            <div className="hero-img-frame">
-              {/* Image set via Contentful via CSS variable; fallback gradient shown */}
-              <div style={{
-                width: '100%', height: '100%',
-                background: 'var(--gradient)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '5rem', color: 'rgba(255,255,255,0.3)'
-              }}>
-                <FaCode />
-              </div>
-            </div>
+            <div className="hero-frame" aria-hidden="true" />
 
-            {/* Floating card A */}
             <div className="hero-float-card card-a">
-              <div className="float-card-icon"><FaStar /></div>
+              <div className="float-card-icon"><FaStar aria-hidden="true" /></div>
               <div className="float-card-text">
                 <strong>Projects Done</strong>
                 <span>40+ Delivered</span>
               </div>
             </div>
 
-            {/* Floating card B */}
             <div className="hero-float-card card-b">
-              <div className="float-card-icon"><FaGithub /></div>
+              <div className="float-card-icon"><FaGithub aria-hidden="true" /></div>
               <div className="float-card-text">
                 <strong>Open Source</strong>
                 <span>Active Contributor</span>
@@ -116,8 +115,15 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <a href="#about" className="hero-scroll" onClick={e => { e.preventDefault(); scrollTo('about'); }}>
+      <a
+        href="#about"
+        className="hero-scroll"
+        aria-label="Scroll to About section"
+        onClick={(e) => {
+          e.preventDefault();
+          scrollTo('about');
+        }}
+      >
         <div className="hero-scroll-line" />
         scroll
       </a>

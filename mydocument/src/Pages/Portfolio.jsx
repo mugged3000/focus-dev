@@ -76,9 +76,9 @@ const Portfolio = () => {
       const alt = (img.alt || '').toLowerCase();
       if (titleLower.includes('food') || titleLower.includes('recipe')) return alt.includes('food') || alt.includes('recipe');
       if (titleLower.includes('gym') || titleLower.includes('powerfit')) return alt.includes('gym') || alt.includes('powerfit');
-      if (titleLower.includes('end-to-end') || titleLower.includes('platform')) return alt.includes('platform') || alt.includes('platform');
-      if (titleLower.includes('e-commerce') || titleLower.includes('ecommerce')) return alt.includes('e-commerce') || alt.includes('shopping') || alt.includes('shooping');
-      if (titleLower.includes('full-stack') || titleLower.includes('vanilla') || titleLower.includes('portfolio')) return alt.includes('vanilla') || alt.includes('portfolio');
+      if (titleLower.includes('end to end') || titleLower.includes('platform')) return alt.includes('platform') || alt.includes('platform');
+      if (titleLower.includes('commerce site') || titleLower.includes('ecommerce')) return alt.includes('ecommerce') || alt.includes('shopping') || alt.includes('shooping');
+      if (titleLower.includes('full stack') || titleLower.includes('vanilla') || titleLower.includes('portfolio')) return alt.includes('vanilla') || alt.includes('portfolio');
       if (titleLower.includes('modern-engineering') || titleLower.includes('website')) return alt.includes('engineering') || alt.includes('website');
       return false;
     });

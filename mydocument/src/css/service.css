@@ -67,24 +67,29 @@
 .service-card h3 {
   font-family: var(--font-display);
   font-size: 1.35rem;
-  font-weight: 800;           /* was 700 */
+  font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 14px;
   letter-spacing: -0.01em;
 }
 
 .service-card p {
-  color: var(--text-secondary); /* was --text-muted */
+  color: var(--text-secondary);
   font-size: 0.97rem;
   font-weight: 450;
   line-height: 1.75;
   margin-bottom: 28px;
 }
 
+/* ── Learn more (now a real button) ── */
 .service-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--accent);
@@ -96,6 +101,12 @@
 .service-link:hover {
   gap: 14px;
   color: var(--accent-hover);
+}
+
+.service-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 4px;
 }
 
 .service-number {
@@ -111,3 +122,238 @@
 }
 
 .service-card:hover .service-number { color: var(--accent-glow); }
+
+/* ============================================================
+   SERVICE MODAL
+   ============================================================ */
+.service-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(8, 10, 20, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: smOverlayIn 0.25s ease forwards;
+}
+
+.service-modal-overlay.is-closing {
+  animation: smOverlayOut 0.22s ease forwards;
+}
+
+.service-modal {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  animation: smPanelIn 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.service-modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient);
+}
+
+.service-modal-overlay.is-closing .service-modal {
+  animation: smPanelOut 0.22s ease forwards;
+}
+
+/* ── Head ── */
+.service-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 32px 32px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.service-modal-id {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.modal-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: var(--accent-glow);
+  border: 1px solid rgba(92, 107, 192, 0.2);
+  color: var(--accent);
+}
+
+.modal-icon svg {
+  width: 26px;
+  height: 26px;
+  color: var(--accent);
+}
+
+.service-modal-kicker {
+  margin: 0 0 6px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.service-modal-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.service-modal-close {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.service-modal-close:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.service-modal-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ── Body ── */
+.service-modal-body {
+  padding: 28px 32px 36px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.service-modal-overview {
+  margin: 0 0 32px;
+  font-size: 1.02rem;
+  font-weight: 450;
+  line-height: 1.85;
+  color: var(--text-secondary);
+}
+
+.service-modal-label {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.service-modal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-modal-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.97rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.service-modal-list li:last-child {
+  padding-bottom: 0;
+}
+
+.service-modal-list li span {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── Animations ── */
+@keyframes smOverlayIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes smOverlayOut { to   { opacity: 0; } }
+
+@keyframes smPanelIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes smPanelOut {
+  to { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+
+@keyframes smSheetIn  { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes smSheetOut { to   { transform: translateY(100%); } }
+
+/* ── Mobile: bottom sheet ── */
+@media (max-width: 600px) {
+  .service-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .service-modal {
+    max-width: 100%;
+    max-height: 88vh;
+    max-height: 88dvh;
+    border-bottom: 0;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    animation-name: smSheetIn;
+    animation-duration: 0.4s;
+  }
+
+  .service-modal-overlay.is-closing .service-modal {
+    animation-name: smSheetOut;
+  }
+
+  .service-modal-head { padding: 24px 20px 20px; }
+
+  .service-modal-body {
+    padding: 22px 20px calc(32px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-modal-overlay,
+  .service-modal { animation: none; }
+}
