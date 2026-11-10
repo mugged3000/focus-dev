@@ -101,7 +101,7 @@ const Portfolio = () => {
       (ctx) => {
         if (!ctx.conditions.motion) return;
         const top = ctx.conditions.desktop ? 112 : 84;
-        const step = ctx.conditions.desktop ? 26 : 14;
+        const step = ctx.conditions.desktop ? 18 : 14;
         const cards = gsap.utils.toArray('.stack-card', root);
         const SCALE = 0.045;
         const SHADE = 0.14;
@@ -182,7 +182,7 @@ const Portfolio = () => {
         )}
 
         {/* Sticky stack */}
-        <div className="stack" ref={stackRef} key={activeFilter}>
+        <div className="stack" ref={stackRef} key={activeFilter} style={{ '--n': filteredItems.length }}>
           {filteredItems.map((item, i) => {
             const imageUrl = getImageForItem(item)?.url;
             const category = getItemCategory(item);

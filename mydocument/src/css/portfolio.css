@@ -260,3 +260,41 @@
 @media (prefers-reduced-motion: reduce) {
   .stack-media img { inset: 0; height: 100%; }
 }
+/* ── Desktop: guarantee the link row is never clipped ── */
+/* ── Desktop: size cards to the viewport so the link row is always on screen ── */
+@media (min-width: 901px) {
+  .stack {
+    --stack-step: 18px;
+    --card-h: clamp(420px, calc(100vh - var(--stack-top) - (var(--n, 1) - 1) * var(--stack-step) - 28px), 580px);
+    --card-h: clamp(420px, calc(100svh - var(--stack-top) - (var(--n, 1) - 1) * var(--stack-step) - 28px), 580px);
+  }
+
+  .stack-info { padding: 36px 40px 32px; }
+  .stack-meta { margin-bottom: 20px; padding-bottom: 14px; }
+  .stack-info h3 { font-size: clamp(1.45rem, 2.2vw, 2rem); margin-bottom: 12px; }
+  .stack-info p { -webkit-line-clamp: 4; flex: 0 1 auto; min-height: 0; }
+  .stack-tags { margin-top: 16px; max-height: 64px; overflow: hidden; flex-shrink: 0; }
+  .stack-links { flex-shrink: 0; padding-top: 20px; }
+
+  /* Live preview becomes a proper button */
+  .stack-link--main {
+    background: var(--accent);
+    color: #fff;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 999px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+  .stack-link--main:hover { color: #fff; filter: brightness(1.12); transform: translateY(-2px); }
+}
+
+/* Short laptop screens (e.g. 1080p at 125% scaling) */
+@media (min-width: 901px) and (max-height: 760px) {
+  .stack-info { padding: 28px 32px 26px; }
+  .stack-meta { margin-bottom: 14px; padding-bottom: 10px; }
+  .stack-index { font-size: 1.4rem; }
+  .stack-info h3 { font-size: 1.45rem; margin-bottom: 8px; }
+  .stack-info p { -webkit-line-clamp: 3; font-size: 0.92rem; line-height: 1.65; }
+  .stack-tags { margin-top: 12px; max-height: 30px; }
+  .stack-links { padding-top: 14px; }
+}

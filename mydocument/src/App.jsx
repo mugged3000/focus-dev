@@ -11,6 +11,7 @@ import Loader from './components/Loader.jsx';
 import WhatsAppButton from './components/WhatsAppButton.jsx';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initSmoothScroll } from './lib/smoothScroll';
+import { prefetchPortfolio } from './Contentfull';
 import './App.css';
 
 function App() {
@@ -50,9 +51,19 @@ function App() {
     };
   }, []);
 
+  // Fetch the content while the loader plays, and only reveal the site once it's ready.
+  // Minimum 1.8s so the loader never flashes, maximum 6s so a slow network can't trap the user.
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2500);
-    return () => clearTimeout(timer);
+    let cancelled = false;
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const ready = Promise.all([wait(1800), prefetchPortfolio().catch(() => null)]);
+
+    Promise.race([ready, wait(6000)]).then(() => {
+      if (!cancelled) setLoading(false);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (loading) return <Loader />;

@@ -123,7 +123,7 @@
 
 /* Keep the spinner moving (it signals loading), just slower */
 @media (prefers-reduced-motion: reduce) {
-  .loader-ring::after { animation-duration: 3s; }
+  .loader-ring::after { animation-duration: 5s; }
   .loader-emblem,
   .loader-brand { animation: none; opacity: 1; }
 }

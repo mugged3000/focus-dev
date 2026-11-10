@@ -47,6 +47,8 @@ const Home = () => {
 
   useEffect(() => {
     let cancelled = false;
+    // Safety net: show the default hero if the network is slow (content swaps in when it arrives)
+    const fallbackTimer = setTimeout(() => !cancelled && setIsLoading(false), 1200);
 
     contentfulClient
       .getEntries({ content_type: 'myportfolio', limit: 1 })
@@ -61,6 +63,7 @@ const Home = () => {
 
     return () => {
       cancelled = true;
+      clearTimeout(fallbackTimer);
     };
   }, []);
 
