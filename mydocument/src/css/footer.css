@@ -7,9 +7,8 @@
 .ft-logo { --s: 46px; display: inline-flex; align-items: center; gap: 14px; margin-bottom: 16px; text-decoration: none; }
 .ft-mark { flex-shrink: 0; width: var(--s); height: var(--s); overflow: hidden; border-radius: 11px; background: #0a0a0a; box-shadow: 0 0 0 1px rgba(212, 165, 55, 0.3); }
 .ft-mark img { display: block; max-width: none; width: calc(var(--s) * 2.7273); margin: calc(var(--s) * -0.4841) 0 0 calc(var(--s) * -0.9432); }
-.ft-name { display: block; font: 500 1rem/1 var(--font-display); letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-primary); }
-.ft-name span { color: #d4a537; font-weight: 600; }
-.ft[data-theme='light'] .ft-name span { color: #a97b14; }
+.ft-name { display: block; font: 500 1rem/1 var(--font-mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); }
+.ft-name span { color: var(--accent); font-weight: 600; }
 .ft-tag { display: block; margin-top: 8px; font: 600 0.62rem/1 var(--font-mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); }
 .ft-brand p { max-width: 380px; margin: 0; font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); }
 
