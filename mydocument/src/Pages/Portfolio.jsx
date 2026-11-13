@@ -5,12 +5,25 @@ import { FaGithub } from 'react-icons/fa';
 import { FiArrowUpRight } from 'react-icons/fi';
 import { contentfulClient } from '../Contentfull';
 import { useReveal } from '../lib/useReveal';
+import haldenCover from '../assets/halden-cover.svg';
 import '../css/portfolio.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const pad = (n) => String(n).padStart(2, '0');
 
+// Hard-coded project (not from Contentful). It replaces the old E-Commerce card.
+const HALDEN = {
+  title: 'Halden Unisex Salon',
+  description:
+    'A modern website for a unisex barbing and styling salon. It presents the brand, the services and the experience in a clean, mobile-first layout, so clients can see what is on offer and get in touch quickly.',
+  tags: ['Responsive', 'Web Design', 'Netlify'],
+  liveLink: 'https://haldenunisexsallon.netlify.app/',
+  category: 'professional',
+  image: haldenCover,
+};
+
+const isOldEcommerce = (item) => /e[-\s]?commerce site/i.test(item.title || '');
 // ─── Category config ───────────────────────────────────────────────────────────
 const CATEGORIES = [
   {
@@ -81,10 +94,20 @@ const Portfolio = () => {
     });
   };
 
-  const filteredItems =
-    activeFilter === 'all'
-      ? portfolioItems
-      : portfolioItems.filter((item) => getItemCategory(item) === activeFilter);
+  // Swap the old E-Commerce card for Halden, in the same position (card 4)
+const allItems = (() => {
+  if (!portfolioItems.length) return [];
+  const idx = portfolioItems.findIndex(isOldEcommerce);
+  if (idx !== -1) return portfolioItems.map((item, i) => (i === idx ? HALDEN : item));
+  const copy = [...portfolioItems];
+  copy.splice(Math.min(3, copy.length), 0, HALDEN);
+  return copy;
+})();
+
+const filteredItems =
+  activeFilter === 'all'
+    ? allItems
+    : allItems.filter((item) => getItemCategory(item) === activeFilter);
 
   const activeCategoryMeta = CATEGORIES.find((c) => c.id === activeFilter);
 
@@ -184,7 +207,7 @@ const Portfolio = () => {
         {/* Sticky stack */}
         <div className="stack" ref={stackRef} key={activeFilter} style={{ '--n': filteredItems.length }}>
           {filteredItems.map((item, i) => {
-            const imageUrl = getImageForItem(item)?.url;
+           const imageUrl = item.image || getImageForItem(item)?.url;
             const category = getItemCategory(item);
 
             return (
